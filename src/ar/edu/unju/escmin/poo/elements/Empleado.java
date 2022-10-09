@@ -58,5 +58,8 @@ public abstract class Empleado {
 		return "Empleado [nombre=" + nombre + ", apellido=" + apellido + ", domicilio=" + domicilio + ", dni=" + dni
 				+ ", legajo=" + legajo + ", cargo=" + cargo + "]";
 	}
+	public Empleado() {
+		// TODO Auto-generated constructor stub
+	}
 	
 }

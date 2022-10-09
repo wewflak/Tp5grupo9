@@ -16,4 +16,7 @@ public abstract class CollectionCliente {
 		return clientes;
 		
 	}
+	public static void agregarCliente(Cliente cliente) {
+		clientes.add(cliente);
+	}
 }

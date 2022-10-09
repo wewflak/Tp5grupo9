@@ -19,8 +19,8 @@ public abstract class CollectionProducto {
 	}
 	
 	public static Producto buscarProductoPorCodigo(int codigo) {
-		productos.stream().filter(p -> p.getCodigo() == codigo);
-		return null;
+		Producto product = productos.stream().filter(p -> p.getCodigo() == codigo).findFirst().get();
+		return product;
 	}
 	
 	public static void agregarProducto(Producto producto) {

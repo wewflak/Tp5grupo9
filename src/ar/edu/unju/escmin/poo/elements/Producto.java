@@ -7,7 +7,9 @@ public class Producto implements Comparable<Producto> {
 	private String descripcion;
 	private double precioUnitario;
 	private int descuento;
-	
+	public Producto() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Override
 	public String toString() {
