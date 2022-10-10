@@ -15,15 +15,16 @@ public abstract class CollectionEmpleado {
 		return empleados;
 	}
 	public static void agregarEmpleado(Empleado empleado) {
-		empleados.add(empleado);
+		//Empleado employee = empleados.stream().filter(e -> e.getDni() == empleado.getDni()).findFirst().get();
+		//if(employee.equals(null)) {
+			empleados.add(empleado);
+		//}else {
+			//System.out.println("El empleado ya esta registrado");
+		//}
 	}
 	
-//	public static Set <FacturaEncabezado> facturas;
-//	public static Set<FacturaEncabezado> getFacturas(){
-//		if(facturas == null || facturas.isEmpty()) {
-//			facturas = new TreeSet<FacturaEncabezado>();
-//		}
-//		return facturas;
-//		
-//	}
+	//public static Stock buscarStockPorCodigo(int codigo) {
+//	Stock product = registro.stream().filter(p -> p.getProd().getCodigo() == codigo).findFirst().get();
+//	return product;
+//}
 }

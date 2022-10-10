@@ -17,6 +17,12 @@ public abstract class CollectionCliente {
 		
 	}
 	public static void agregarCliente(Cliente cliente) {
+		Cliente client = clientes.stream().filter(c -> c.getDni() == cliente.getDni()).findFirst().get();
+		if(client.equals(null)) {
 		clientes.add(cliente);
+		}else {
+			System.out.println("El cliente ya estaba registrado");
+		}
 	}
+
 }

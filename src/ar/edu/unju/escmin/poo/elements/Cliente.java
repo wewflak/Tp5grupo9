@@ -5,6 +5,9 @@ public abstract class Cliente {
 	protected String apellido;
 	protected String domicilio;
 	protected Long dni;
+	public Cliente() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getNombre() {
 		return nombre;
 	}

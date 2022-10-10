@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class EncargadoVentas extends Empleado {
+public class EncargadoVentas extends Empleado implements Comparable<Empleado>  {
 
 	public EncargadoVentas(String nombre, String apellido, String domicilio, Long dni, Long legajo, String cargo) {
 		super(nombre, apellido, domicilio, dni, legajo, cargo);
@@ -29,6 +29,11 @@ public class EncargadoVentas extends Empleado {
 		
 		return venta;
 		
+	}
+	@Override
+	public int compareTo(Empleado o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

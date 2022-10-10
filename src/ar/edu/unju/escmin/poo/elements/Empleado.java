@@ -8,6 +8,9 @@ public abstract class Empleado {
 	protected Long dni;
 	protected Long legajo;
 	protected String cargo;
+	public Empleado() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -58,8 +61,6 @@ public abstract class Empleado {
 		return "Empleado [nombre=" + nombre + ", apellido=" + apellido + ", domicilio=" + domicilio + ", dni=" + dni
 				+ ", legajo=" + legajo + ", cargo=" + cargo + "]";
 	}
-	public Empleado() {
-		// TODO Auto-generated constructor stub
-	}
+
 	
 }
