@@ -1,6 +1,7 @@
 package ar.edu.unju.escmin.poo.elements;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -18,12 +19,12 @@ public class EncargadoVentas extends Empleado implements Comparable<Empleado>  {
 		}
 		
 	}
-	public double totalVentas(TreeSet<FacturaEncabezado> facturas) {
+	public double totalVentas(TreeSet<FacturaEncabezado> facturas, List<Detalle> detalles) {
 
 		double venta=0;
 		Iterator<FacturaEncabezado> it = facturas.iterator();
 		while (it.hasNext()) {
-			venta = venta + it.next().calcularTotal();
+			venta = venta + it.next().calcularTotal(detalles);
 		}
 		
 		

@@ -10,8 +10,8 @@ public class AgenteAdministrativo extends Empleado implements Comparable<Emplead
 		super(nombre, apellido, domicilio, dni, legajo, cargo);
 		// TODO Auto-generated constructor stub
 	}
-	public static void altaProducto() {
-		
+	public static void altaProducto(int codigo) {
+	
 	}
 
 	@Override

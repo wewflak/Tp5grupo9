@@ -20,8 +20,13 @@ public class CollectionFactura {
 	}
 	public static FacturaEncabezado buscarFacturaPorCodigo(int codigo) {
 		
-		FacturaEncabezado factura;
-		factura = facturas.stream().filter(f -> f.getNumeroFactura() == codigo).findFirst().get();		
+		FacturaEncabezado factura = null;
+		try {
+			
+		factura = facturas.stream().filter(f -> f.getNumeroFactura() == codigo).findFirst().get();	
+		}catch(Exception e) {
+			System.out.println("La factura no existe");
+		}
 		return factura;
 	}
 }

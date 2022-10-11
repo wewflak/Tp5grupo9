@@ -14,6 +14,12 @@ public class Detalle {
 
 
 
+	public Detalle() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public int getCantidad() {
 		return cantidad;
 	}

@@ -4,7 +4,7 @@ public class ClienteMayorista extends Cliente implements Comparable<Cliente> {
 	
 	private long idCliente;
 	
-	public ClienteMayorista(String nombre, String apellido, String domicilio, Long dni, long idCliente) {
+	public ClienteMayorista(String nombre, String apellido, String domicilio, long dni, long idCliente) {
 		super(nombre, apellido, domicilio, dni);
 		this.idCliente = idCliente;
 		// TODO Auto-generated constructor stub

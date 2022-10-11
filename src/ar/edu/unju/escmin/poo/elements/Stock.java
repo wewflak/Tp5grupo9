@@ -1,6 +1,6 @@
 package ar.edu.unju.escmin.poo.elements;
 
-public class Stock {
+public class Stock implements Comparable <Stock> {
 
 	public Stock() {
 		// TODO Auto-generated constructor stub
@@ -23,6 +23,11 @@ public class Stock {
 		super();
 		this.prod = prod;
 		this.cantidad = cantidad;
+	}
+	@Override
+	public int compareTo(Stock o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

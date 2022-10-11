@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FacturaEncabezado {
-
+public FacturaEncabezado() {
+	// TODO Auto-generated constructor stub
+}
 	private LocalDate fecha;
 	private int numeroFactura;
 	private double total;
@@ -66,11 +68,11 @@ public class FacturaEncabezado {
 		
 	}
 	
-	public double calcularTotal() {
+	public double calcularTotal(List<Detalle> details) {
 		double precio = 0; 
-		for(int i=0; i<detalles.size(); i++) {
+		for(int i=0; i<details.size(); i++) {
 			
-			precio = precio + detalles.get(i).calcularImporte();
+			precio = precio + details.get(i).calcularImporte();
 		}
 		return total;
 	}

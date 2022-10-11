@@ -18,6 +18,7 @@ public abstract class CollectionEmpleado {
 		//Empleado employee = empleados.stream().filter(e -> e.getDni() == empleado.getDni()).findFirst().get();
 		//if(employee.equals(null)) {
 			empleados.add(empleado);
+			System.out.println("Fue guardado");
 		//}else {
 			//System.out.println("El empleado ya esta registrado");
 		//}

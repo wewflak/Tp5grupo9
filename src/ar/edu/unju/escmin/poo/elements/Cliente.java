@@ -4,7 +4,7 @@ public abstract class Cliente {
 	protected String nombre;
 	protected String apellido;
 	protected String domicilio;
-	protected Long dni;
+	protected long dni;
 	public Cliente() {
 		// TODO Auto-generated constructor stub
 	}
@@ -26,13 +26,13 @@ public abstract class Cliente {
 	public void setDomicilio(String domicilio) {
 		this.domicilio = domicilio;
 	}
-	public Long getDni() {
+	public long getDni() {
 		return dni;
 	}
-	public void setDni(Long dni) {
+	public void setDni(long dni) {
 		this.dni = dni;
 	}
-	public Cliente(String nombre, String apellido, String domicilio, Long dni) {
+	public Cliente(String nombre, String apellido, String domicilio, long dni) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
