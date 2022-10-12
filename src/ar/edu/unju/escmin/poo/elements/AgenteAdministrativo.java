@@ -43,9 +43,20 @@ public class AgenteAdministrativo extends Empleado implements Comparable<Emplead
 		pr = scan.nextDouble();
 		System.out.println("Ingrese el descuento del producto: ");
 		des = scan.nextInt();
+		if(des>0) {
+			
 
-		Producto prod = new Producto(cod, nom, desc, pr, des);
+			Producto prod = new Producto(cod, nom, desc, pr, des);
+		pr = prod.calcularDescuento();
+		prod.setPrecioUnitario(pr);
 		CollectionProducto.agregarProducto(prod);
+		}else {
+
+			Producto prod = new Producto(cod, nom, desc, pr, des);
+
+			CollectionProducto.agregarProducto(prod);
+		}
+
 		}
 	}
 	public static void cargarStock() {
