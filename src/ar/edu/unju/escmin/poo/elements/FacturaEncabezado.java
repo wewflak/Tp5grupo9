@@ -62,7 +62,6 @@ String newLine = System.getProperty("line.separator");
 				"      "+
 				"	Producto		"+	"Descripcion		" + "	Importe		"+ newLine +
 				"______________" + newLine +
-				 mostrarDetalle().toString() + newLine + 
 				"				"+ 
 				"	"+ "			total=" + total;
 	}
@@ -76,17 +75,16 @@ String newLine = System.getProperty("line.separator");
 		return detalles;
 		
 	}
-	public String [] mostrarDetalle() {
+	public void mostrarDetalle() {
 		String[] datos = new String [120];
 		for(int i=0; i<detalles.size(); i++) {
 			if(detalles.get(i)!=null) {
 				datos[i] = detalles.get(i).getProducto().getNombre() + "    " + detalles.get(i).getProducto().getDescripcion() + "    " + detalles.get(i).getCantidad() + "    " +detalles.get(i).calcularImporte();
-				System.out.println(datos[i]);
+				System.out.println("_______________________________________________________"+ newLine + datos[i]);
 			}else {
-				
+				System.out.println("   ");
 			}
 		}
-		return datos;
 	}
 	public boolean comprobarExistencia( Producto prod) {
 		if(detalles.isEmpty()) {

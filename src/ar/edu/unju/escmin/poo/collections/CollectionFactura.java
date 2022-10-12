@@ -1,5 +1,6 @@
 package ar.edu.unju.escmin.poo.collections;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,10 +30,10 @@ public class CollectionFactura {
 		}
 		return factura;
 	}
-//	public static Optional<Producto> buscarProducto(int codigo) {
-//	Optional<Producto> encontrado= Optional.empty();
-//	encontrado = productos.stream().filter(p -> p.getCodigo() == codigo).findFirst();
-//	
-//	return encontrado;
-//}
+	public static Optional<FacturaEncabezado> buscarFactura(int codigo) {
+	Optional<FacturaEncabezado> encontrado= Optional.empty();
+	encontrado = facturas.stream().filter(f -> f.getNumeroFactura() == codigo).findFirst();
+	
+	return encontrado;
+}
 }

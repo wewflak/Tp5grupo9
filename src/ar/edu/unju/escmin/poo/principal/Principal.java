@@ -26,19 +26,20 @@ public class Principal {
 		// TODO Auto-generated method stub
 		Scanner scan = new Scanner(System.in);
 		int op = 0;
+		String newLine = System.getProperty("line.separator");
 		int j=0;
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
 		int answer = 0;
 		boolean terminar = false;
 		Optional<Stock> existe = Optional.empty();
 		Optional<Producto> existeProducto = Optional.empty();
+		Optional<FacturaEncabezado> existeFactura = Optional.empty();
 		boolean encontradoProducto = false;
 		CollectionProducto.getProductos();
 		CollectionFactura.getFacturas();
 		CollectionCliente.getClientes();
 		CollectionStock.getStock();
 		CollectionEmpleado.getEmpleados();
-		FacturaEncabezado factura = new FacturaEncabezado();
 		do {
 			System.out.println("+*+*+*+*+*+*+*  Menu  +*+*+*+*+*+*+*");
 			System.out.println("1. Crear un empleado");
@@ -124,14 +125,19 @@ public class Principal {
 			case 4:
 				System.out.println("Ingrese el numero de dni del cliente");
 			long documento = scan.nextLong();
+				FacturaEncabezado factura = new FacturaEncabezado();
 				Cliente cli = CollectionCliente.buscarCliente(documento);
 					if(cli instanceof ClienteMinorista) {
 						System.out.println("---------_Factura_--------");
 						System.out.println("Ingrese el numero de factura");
-						factura.setNumeroFactura(scan.nextInt());
-						System.out.println("Ingrese la fecha de la factura");
+
+						int codig = scan.nextInt();
+						factura.setNumeroFactura(codig);
+						existeFactura = CollectionFactura.buscarFactura(codig);
+						if(existeFactura.isPresent()) {System.out.println("La factura ya existe");}else {
+						System.out.println("Ingrese la fecha de la factura [dd/mm/aaaa]");
 						String fecha = scan.next();
-						LocalDate date = LocalDate.parse(fecha);
+						LocalDate date = LocalDate.parse(fecha, formato);
 						factura.setFecha(date);
 						factura.setCliente(cli);
 						answer=0;
@@ -164,13 +170,25 @@ public class Principal {
 							//System.out.println(factura.getDetalles().get(0).getProducto().getNombre());
 							factura.setSubtotal(factura.calcularSubtotal());
 							factura.setTotal(factura.calcularTotal());
-						//Calculardescuento
-						factura.getDetalles().stream().forEach(d -> System.out.println(d.getProducto().getNombre() + " |||| " + d.getCantidad() + " _-_-_ " + d.calcularImporte()));
-						System.out.println(factura.toString());
+							CollectionFactura.agregarFactura(factura);
+							System.out.println("Numero: " + factura.getNumeroFactura() + "                             .... Fecha ..../ " + factura.getFecha());
+							System.out.println("N y A: " + factura.getCliente().getNombre()+ " " +factura.getCliente().getApellido() + "  DNI:" + factura.getCliente().getDni());
+							System.out.println("Nombre Producto                            Descripcion                    Cantidad                     Importe");
+							System.out.println("_________________________________________________________________"+ newLine); 
+							factura.mostrarDetalle();
+							System.out.println("_________________________________________________________________");
+							System.out.println("                                        Subtotal: "+ factura.getSubtotal());
+							System.out.println("_________________________________________________________________");
+							System.out.println(                                         "Total: " + factura.getTotal());
+					}
+					
 					}else if(cli instanceof ClienteMayorista) {
 						System.out.println("---------_Factura_--------");
 						System.out.println("Ingrese el numero de factura");
-						factura.setNumeroFactura(scan.nextInt());
+						int codig = scan.nextInt();
+						factura.setNumeroFactura(codig);
+						existeFactura = CollectionFactura.buscarFactura(codig);
+						if(existeFactura.isPresent()) {System.out.println("La factura ya existe");}else {
 						System.out.println("Ingrese la fecha de la factura");
 						String fecha = scan.next();
 						LocalDate date = LocalDate.parse(fecha);
@@ -184,12 +202,14 @@ public class Principal {
 							Producto product = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
 							Stock stock = CollectionStock.buscarStockPorCodigo(product.getCodigo());
 							if(product != null && stock != null) {
-								Detalle detalle = new Detalle();	
+							Detalle detalle = new Detalle();	
 							detalle.setProducto(product);
 							System.out.println("Cuantos de estos productos son comprados");
 							detalle.setCantidad(scan.nextInt());
 							if(detalle.getCantidad() > stock.getCantidad()) {
 								System.out.println("La cantidad ingresada es mayor a la disponible");
+							}else if(detalle.getCantidad() %10 !=0){
+								System.out.println("Los productos deben ser comprados en paquetes de 10");
 							}else {
 							CollectionStock.decrementarStockDeProducto(product.getCodigo(), detalle.getCantidad());
 							factura.agregarDetalle(detalle);
@@ -200,9 +220,20 @@ public class Principal {
 							}
 							factura.setSubtotal(factura.calcularSubtotal());
 							factura.setTotal(factura.calcularTotal());
+							CollectionFactura.agregarFactura(factura);
 						//CalculardescuentoS
-						factura.getDetalles().stream().forEach(d -> System.out.println(d.getProducto().getNombre() + " |||| " + d.getCantidad() + " _-_-_ " + d.calcularImporte()));
-						System.out.println(factura.toString());
+							System.out.println("Numero: " + factura.getNumeroFactura() + "                             .... Fecha ..../ " + factura.getFecha());
+							System.out.println("N y A: " + factura.getCliente().getNombre()+ " " +factura.getCliente().getApellido() + "  DNI:" + factura.getCliente().getDni());
+							System.out.println("Nombre Producto                            Descripcion                    Cantidad                     Importe");
+							System.out.println("_________________________________________________________________"+ newLine); 
+							factura.mostrarDetalle();
+							System.out.println("_________________________________________________________________");
+							System.out.println("                                        Subtotal: "+ factura.getSubtotal());
+							System.out.println("_________________________________________________________________");
+							System.out.println(                                         "Total: " + factura.getTotal());
+						//factura.getDetalles().stream().forEach(d -> System.out.println(d.getProducto().getNombre() + " |||| " + d.getCantidad() + " _-_-_ " + d.calcularImporte()));
+						//System.out.println(factura.toString());
+					}
 					}
 				break;
 			case 5:
@@ -235,11 +266,20 @@ public class Principal {
 				}
 				break;
 			case 7:
+				FacturaEncabezado fact = new FacturaEncabezado();
 				System.out.println("Ingrese el codigo de la factura que esta buscando");
 				code = scan.nextInt();
-				CollectionFactura.buscarFacturaPorCodigo(code);
-				if(factura!= null) {
-					System.out.println(factura.toString());
+				fact = CollectionFactura.buscarFacturaPorCodigo(code);
+				if(fact!= null) {
+					System.out.println("Numero: " + fact.getNumeroFactura() + "                             .... Fecha ..../ " + fact.getFecha());
+					System.out.println("N y A: " + fact.getCliente().getNombre()+ " " +fact.getCliente().getApellido() + "  DNI:" + fact.getCliente().getDni());
+					System.out.println("Nombre Producto                            Descripcion                    Cantidad                     Importe");
+					System.out.println("_________________________________________________________________"+ newLine); 
+					fact.mostrarDetalle();
+					System.out.println("_________________________________________________________________");
+					System.out.println("                                        Subtotal: "+ fact.getSubtotal());
+					System.out.println("_________________________________________________________________");
+					System.out.println(                                         "Total: " + fact.getTotal());
 				}
 				break;
 				
