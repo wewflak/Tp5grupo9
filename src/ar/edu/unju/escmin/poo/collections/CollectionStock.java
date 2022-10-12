@@ -53,20 +53,6 @@ public static Optional<Stock> buscarStock (int codigo){
 public static void mostrarStock() {
 	registro.stream().forEach(s-> System.out.println(s.getProd().getCodigo()));
 }
-//public static Optional<Producto> buscarProducto(int codigo) {
-//Optional<Producto> encontrado= Optional.empty();
-//encontrado = productos.stream().filter(p -> p.getCodigo() == codigo).findFirst();
-//
-//return encontrado;
-//}
-//
-//public static void agregarProducto(Producto producto) {
-//	if(buscarProductoPorCodigo(producto.getCodigo()).equals(null)) {
-//	productos.add(producto);
-//	}else {
-//		System.out.println("El producto ya existe en el sistema");
-//	}
-//}
 
 	
 }

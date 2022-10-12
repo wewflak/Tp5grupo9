@@ -1,6 +1,8 @@
 package ar.edu.unju.escmin.poo.elements;
 
-public abstract class Empleado {
+import java.util.Objects;
+
+public abstract class Empleado implements Comparable<Empleado>{
 
 	protected String nombre;
 	protected String apellido;
@@ -61,6 +63,16 @@ public abstract class Empleado {
 		return "Empleado [nombre=" + nombre + ", apellido=" + apellido + ", domicilio=" + domicilio + ", dni=" + dni
 				+ ", legajo=" + legajo + ", cargo=" + cargo + "]";
 	}
-
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empleado other = (Empleado) obj;
+		return Objects.equals(cargo, other.cargo) && legajo == other.legajo
+				&& Objects.equals(apellido, other.apellido);
+	}
 }

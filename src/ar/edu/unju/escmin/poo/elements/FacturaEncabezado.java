@@ -57,11 +57,11 @@ String newLine = System.getProperty("line.separator");
 	}
 	@Override
 	public String toString() {
-		return "Factura" + "[" +"fecha: " + fecha + "  |||||  " + "numeroFactura: " + numeroFactura + " ||||| " +"cliente:" + cliente.nombre+ cliente.apellido +"]" + newLine+ 
-				"---------------" + newLine+
+		return "Factura" + "[" +"fecha: " + fecha + "  |||||  " + "numeroFactura: " + numeroFactura + " ||||| " +"cliente:" + cliente.nombre+ cliente.apellido +"]" + 
+				"---------------" + 
 				"      "+
-				"	Producto		"+	"Descripcion		" + "	Importe		"+ newLine +
-				"______________" + newLine +
+				"	Producto		"+	"Descripcion		" + "	Importe		"+ 
+				"______________" +
 				"				"+ 
 				"	"+ "			total=" + total;
 	}

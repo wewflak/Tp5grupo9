@@ -23,28 +23,12 @@ public abstract class CollectionCliente {
 		return clientes;
 		
 	}
-//	public static void agregarCliente(Cliente cliente) {
-//		Cliente client = clientes.stream().filter(c -> c.getDni() == cliente.getDni()).findFirst().get();
-//		if(client.equals(null)) {
-//		clientes.add(cliente);
-//		}else {
-//			System.out.println("El cliente ya estaba registrado");
-//		}
-//	}
 	public static Cliente buscarCliente(long documento) {
 
 		Cliente clienteEncontrado = null;
 		try {
 		clienteEncontrado = clientes.stream().filter(c-> c.getDni() == documento).findFirst().get();
-//		for(int i=0; i<clientes.size(); i++) {
-//			if(documento == clientes.get(i).getDni()) {
-//				encontrado = true;
-//				clienteEncontrado = clientes.get(i);
-//			}else {
-//				encontrado = false;
-//				System.out.println("No");
-//			}
-//		}
+
 		}catch(Exception e) {
 			System.out.println("El cliente no existe");
 		}

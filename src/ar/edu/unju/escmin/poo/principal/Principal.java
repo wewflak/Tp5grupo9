@@ -17,6 +17,7 @@ import ar.edu.unju.escmin.poo.elements.ClienteMayorista;
 import ar.edu.unju.escmin.poo.elements.ClienteMinorista;
 import ar.edu.unju.escmin.poo.elements.Detalle;
 import ar.edu.unju.escmin.poo.elements.Empleado;
+import ar.edu.unju.escmin.poo.elements.EncargadoVentas;
 import ar.edu.unju.escmin.poo.elements.FacturaEncabezado;
 import ar.edu.unju.escmin.poo.elements.Producto;
 import ar.edu.unju.escmin.poo.elements.Stock;
@@ -40,57 +41,25 @@ public class Principal {
 		CollectionCliente.getClientes();
 		CollectionStock.getStock();
 		CollectionEmpleado.getEmpleados();
+		AgenteAdministrativo administrativo = (AgenteAdministrativo)CollectionEmpleado.empleados.stream().filter(e -> e.getCargo().equals("Administrativo")).findFirst().get();
+	    EncargadoVentas encargadoVentas=(EncargadoVentas)CollectionEmpleado.empleados.stream().filter(e->e.getCargo().equals("Encargado")).findFirst().get();
 		do {
 			System.out.println("+*+*+*+*+*+*+*  Menu  +*+*+*+*+*+*+*");
-			System.out.println("1. Crear un empleado");
-			System.out.println("2. Crear un cliente");
-			System.out.println("3. Crear un producto");
-			System.out.println("4. Realizar Venta");
-			System.out.println("5. Verificar Stock de producto");
-			System.out.println("6. Cargar Stock de producto");
+			System.out.println("1. Crear un producto");
+			System.out.println("2. Cargar Stock de producto");
+			System.out.println("3. Realizar Venta");
+			System.out.println("*********  Encargado de Ventas  *********");
+			System.out.println("4. Verificar Stock de producto");
+			System.out.println("5. Mostrar total de ventas");
+			System.out.println("6. Mostrar todas las ventas");
+			System.out.println("*********  Cliente  *********");
 			System.out.println("7. Buscar Factura por codigo");
-//			System.out.println("");
-//			System.out.println("");
 //			System.out.println("");
 //			System.out.println("");
 //			System.out.println("");
 			op=scan.nextInt();
 			switch(op) {
 			case 1:
-					AgenteAdministrativo employee = new AgenteAdministrativo();
-					System.out.println("Ingrese el nombre del empleado");
-					employee.setNombre(scan.next());
-					System.out.println("Ingrese el apellido del empleado");
-					employee.setApellido(scan.next());
-					System.out.println("Ingrese el dni del empleado");
-					employee.setDni(scan.nextLong());
-					System.out.println("Ingrese el legajo del empleado");
-					employee.setLegajo(scan.nextLong());
-					System.out.println("Ingrese el cargo del empleado");
-					employee.setCargo(scan.next());
-					System.out.println("Ingrese el domicilio del empleado");
-					employee.setDomicilio(scan.next());
-					CollectionEmpleado.agregarEmpleado(employee);
-					Iterator<Empleado> it = CollectionEmpleado.empleados.iterator();
-					while (it.hasNext()) {						it.next().toString();}
-				break;
-			
-			case 2:
-				ClienteMinorista client = new ClienteMinorista();
-				
-				System.out.println("Ingrese el Nombre del Cliente");
-				client.setNombre(scan.next());
-				System.out.println("Ingrese el Apellido del Cliente");
-				client.setApellido(scan.next());
-				System.out.println("Ingrese el DNI del Cliente");
-				client.setDni(scan.nextLong());
-				System.out.println("Ingrese el Domicilio del Cliente");
-				client.setDomicilio(scan.next());
-				System.out.println("Ingrese el Codigo de PAMI del Cliente");
-				client.setCodPami(scan.nextLong());
-			break;
-
-			case 3:
 				String nom =" ", desc=" ";
 				double pr=0;
 				int des=0, cod=0;
@@ -111,18 +80,31 @@ public class Principal {
 
 				Producto prod = new Producto(cod, nom, desc, pr, des);
 				CollectionProducto.agregarProducto(prod);
-				
-//				System.out.println("Quiere agregar otro producto? no=2");
-//				answer = scan.nextInt();
-//				if(answer==2) {
-//					band=true;
-//
-//				}
-			//	}
 				}
 			
 				break;
-			case 4:
+			case 2:
+				CollectionProducto.mostrarProductos();
+				Stock registro = new Stock();
+				System.out.println("Crear stock de producto");
+				System.out.println("Ingresar el codigo del producto");
+				int code= scan.nextInt();
+				Producto product =  new Producto();
+				product = CollectionProducto.buscarProductoPorCodigo(code);
+				existe = CollectionStock.buscarStock(code);
+				if(product != null && existe.isEmpty()) {
+					registro.setProd(product);
+					System.out.println("Cuantos productos va agregar al stock");
+					int cant = scan.nextInt();
+
+					CollectionStock.agregarStockDeProducto(registro);
+					CollectionStock.incrementarStockDeProducto(product.getCodigo(), cant);
+				} 
+				if(existe.isPresent()) {
+					System.out.println("El producto ya tiene un stock creado");
+				}
+				break;
+			case 3:
 				System.out.println("Ingrese el numero de dni del cliente");
 			long documento = scan.nextLong();
 				FacturaEncabezado factura = new FacturaEncabezado();
@@ -144,18 +126,18 @@ public class Principal {
 							while(answer!=2){
 							Scanner respuesta = new Scanner(System.in);
 							System.out.println("Ingrese el producto comprado por el cliente");
-							Producto product = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
-							Stock stock = CollectionStock.buscarStockPorCodigo(product.getCodigo());
-							encontradoProducto = factura.comprobarExistencia(product);		
-							if(product != null && stock != null && encontradoProducto != true) {
+							Producto produc = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
+							Stock stock = CollectionStock.buscarStockPorCodigo(produc.getCodigo());
+							encontradoProducto = factura.comprobarExistencia(produc);		
+							if(produc != null && stock != null && encontradoProducto != true) {
 							Detalle detalle = new Detalle();	
-							detalle.setProducto(product);
+							detalle.setProducto(produc);
 							System.out.println("Cuantos de estos productos son comprados");
 							detalle.setCantidad(scan.nextInt());
 							if(detalle.getCantidad() > stock.getCantidad()) {
 								System.out.println("La cantidad ingresada es mayor a la disponible");
 							}else {
-							CollectionStock.decrementarStockDeProducto(product.getCodigo(), detalle.getCantidad());
+							CollectionStock.decrementarStockDeProducto(produc.getCodigo(), detalle.getCantidad());
 							factura.agregarDetalle(detalle);
 							System.out.println(detalle.getProducto().getNombre());
 							}}else if(encontradoProducto==true) {
@@ -189,9 +171,9 @@ public class Principal {
 						factura.setNumeroFactura(codig);
 						existeFactura = CollectionFactura.buscarFactura(codig);
 						if(existeFactura.isPresent()) {System.out.println("La factura ya existe");}else {
-						System.out.println("Ingrese la fecha de la factura");
+						System.out.println("Ingrese la fecha de la factura [dd/mm/aaaa]");
 						String fecha = scan.next();
-						LocalDate date = LocalDate.parse(fecha);
+						LocalDate date = LocalDate.parse(fecha, formato);
 						factura.setFecha(date);
 						factura.setCliente(cli);
 						answer=0;
@@ -199,11 +181,11 @@ public class Principal {
 							CollectionStock.mostrarStock();
 							Scanner respuesta = new Scanner(System.in);
 							System.out.println("Ingrese el producto comprado por el cliente");
-							Producto product = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
-							Stock stock = CollectionStock.buscarStockPorCodigo(product.getCodigo());
-							if(product != null && stock != null) {
+							Producto produc = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
+							Stock stock = CollectionStock.buscarStockPorCodigo(produc.getCodigo());
+							if(produc != null && stock != null) {
 							Detalle detalle = new Detalle();	
-							detalle.setProducto(product);
+							detalle.setProducto(produc);
 							System.out.println("Cuantos de estos productos son comprados");
 							detalle.setCantidad(scan.nextInt());
 							if(detalle.getCantidad() > stock.getCantidad()) {
@@ -211,7 +193,7 @@ public class Principal {
 							}else if(detalle.getCantidad() %10 !=0){
 								System.out.println("Los productos deben ser comprados en paquetes de 10");
 							}else {
-							CollectionStock.decrementarStockDeProducto(product.getCodigo(), detalle.getCantidad());
+							CollectionStock.decrementarStockDeProducto(produc.getCodigo(), detalle.getCantidad());
 							factura.agregarDetalle(detalle);
 							}}
 							System.out.println("Quiere agregar mas productos? no=2");
@@ -236,34 +218,18 @@ public class Principal {
 					}
 					}
 				break;
-			case 5:
+			case 4:
 				System.out.println("Ingrese el codigo del producto");
-				int code = scan.nextInt();
-				Stock stock = CollectionStock.buscarStockPorCodigo(code);
-				if(stock != null) {
-					System.out.println("El stock del producto es: " + stock.getCantidad());
-				}
+				int codig = scan.nextInt();
+				encargadoVentas.verificarStock(codig);
+				break;
+			case 5:
+				double total;
+				total = encargadoVentas.totalVentas(CollectionFactura.facturas);
+				System.out.println("El total de las ventas es: " + total);
 				break;
 			case 6:
-				CollectionProducto.mostrarProductos();
-				Stock registro = new Stock();
-				System.out.println("Crear stock de producto");
-				System.out.println("Ingresar el codigo del producto");
-				code= scan.nextInt();
-				Producto product =  new Producto();
-				product = CollectionProducto.buscarProductoPorCodigo(code);
-				existe = CollectionStock.buscarStock(code);
-				if(product != null && existe.isEmpty()) {
-					registro.setProd(product);
-					System.out.println("Cuantos productos va agregar al stock");
-					int cant = scan.nextInt();
-
-					CollectionStock.agregarStockDeProducto(registro);
-					CollectionStock.incrementarStockDeProducto(product.getCodigo(), cant);
-				} 
-				if(existe.isPresent()) {
-					System.out.println("El producto ya tiene un stock creado");
-				}
+				encargadoVentas.mostrarVentas(CollectionFactura.facturas);
 				break;
 			case 7:
 				FacturaEncabezado fact = new FacturaEncabezado();

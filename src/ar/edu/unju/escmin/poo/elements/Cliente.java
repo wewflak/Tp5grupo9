@@ -1,6 +1,8 @@
 package ar.edu.unju.escmin.poo.elements;
 
-public abstract class Cliente {
+import java.util.Objects;
+
+public abstract class Cliente{
 	protected String nombre;
 	protected String apellido;
 	protected String domicilio;
@@ -44,6 +46,17 @@ public abstract class Cliente {
 		return "Cliente [nombre=" + nombre + ", apellido=" + apellido + ", domicilio=" + domicilio + ", dni=" + dni
 				+ "]";
 	}
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return Objects.equals(nombre, other.nombre) && dni == other.dni
+				&& Objects.equals(apellido, other.apellido);
+	}
 
 }
