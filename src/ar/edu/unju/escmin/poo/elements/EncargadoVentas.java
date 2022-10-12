@@ -19,12 +19,12 @@ public class EncargadoVentas extends Empleado implements Comparable<Empleado>  {
 		}
 		
 	}
-	public double totalVentas(TreeSet<FacturaEncabezado> facturas, List<Detalle> detalles) {
+	public double totalVentas(TreeSet<FacturaEncabezado> facturas) {
 
 		double venta=0;
 		Iterator<FacturaEncabezado> it = facturas.iterator();
 		while (it.hasNext()) {
-			venta = venta + it.next().calcularTotal(detalles);
+			venta = venta + it.next().calcularTotal();
 		}
 		
 		

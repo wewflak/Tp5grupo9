@@ -20,17 +20,19 @@ import ar.edu.unju.escmin.poo.elements.Empleado;
 import ar.edu.unju.escmin.poo.elements.FacturaEncabezado;
 import ar.edu.unju.escmin.poo.elements.Producto;
 import ar.edu.unju.escmin.poo.elements.Stock;
-
 public class Principal {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner scan = new Scanner(System.in);
 		int op = 0;
+		int j=0;
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
 		int answer = 0;
 		boolean terminar = false;
 		Optional<Stock> existe = Optional.empty();
+		Optional<Producto> existeProducto = Optional.empty();
+		boolean encontradoProducto = false;
 		CollectionProducto.getProductos();
 		CollectionFactura.getFacturas();
 		CollectionCliente.getClientes();
@@ -88,19 +90,38 @@ public class Principal {
 				System.out.println("Ingrese el Codigo de PAMI del Cliente");
 				client.setCodPami(scan.nextLong());
 			break;
+
 			case 3:
-				Producto prod = new Producto();
-				System.out.println("ingrese el codigo: ");
-				prod.setCodigo(scan.nextInt());	
-				System.out.println("ingrese el nombre del producto: ");
-				prod.setNombre(scan.next());
-				System.out.println("ingrese la descripcion: ");
-				prod.setDescripcion(scan.next());
-				System.out.println("ingrese el precio unitario: ");
-				prod.setPrecioUnitario(scan.nextDouble());
-				System.out.println("ingrese el descuento del producto: ");
-				prod.setDescuento(scan.nextInt());
+				String nom =" ", desc=" ";
+				double pr=0;
+				int des=0, cod=0;
+				boolean band=false;
+				//while(band!=true) {
+				System.out.println("Ingrese el codigo: ");
+				cod = scan.nextInt();	
+				existeProducto = CollectionProducto.buscarProducto(cod);
+				if(existeProducto.isPresent()) {System.out.println("El producto ya fue cargado"); band=true;}else {
+				System.out.println("Ingrese el nombre del producto: ");
+				nom = scan.next();
+				System.out.println("Ingrese la descripcion: ");
+				desc = scan.next();
+				System.out.println("Ingrese el precio unitario: ");
+				pr = scan.nextDouble();
+				System.out.println("Ingrese el descuento del producto: ");
+				des = scan.nextInt();
+
+				Producto prod = new Producto(cod, nom, desc, pr, des);
 				CollectionProducto.agregarProducto(prod);
+				
+//				System.out.println("Quiere agregar otro producto? no=2");
+//				answer = scan.nextInt();
+//				if(answer==2) {
+//					band=true;
+//
+//				}
+			//	}
+				}
+			
 				break;
 			case 4:
 				System.out.println("Ingrese el numero de dni del cliente");
@@ -115,12 +136,14 @@ public class Principal {
 						LocalDate date = LocalDate.parse(fecha);
 						factura.setFecha(date);
 						factura.setCliente(cli);
+						answer=0;
 							while(answer!=2){
 							Scanner respuesta = new Scanner(System.in);
 							System.out.println("Ingrese el producto comprado por el cliente");
 							Producto product = CollectionProducto.buscarProductoPorCodigo(scan.nextInt());
 							stock = CollectionStock.buscarStockPorCodigo(product.getCodigo());
-							if(product != null && stock != null) {
+							encontradoProducto = factura.comprobarExistencia(product);		
+							if(product != null && stock != null && encontradoProducto != true) {
 							detalle.setProducto(product);
 							System.out.println("Cuantos de estos productos son comprados");
 							detalle.setCantidad(scan.nextInt());
@@ -129,15 +152,19 @@ public class Principal {
 							}else {
 							CollectionStock.decrementarStockDeProducto(product.getCodigo(), detalle.getCantidad());
 							factura.agregarDetalle(detalle);
-							}}
+							System.out.println(detalle.getProducto().getNombre());
+							}}else if(encontradoProducto==true) {
+								System.out.println("El producto ya existe en la factura");
+							}
 							
 							System.out.println("Quiere agregar mas productos? no=2");
 							answer = respuesta.nextInt();
 							if(answer == 2) {terminar=true;}
 							}
 
-							System.out.println(factura.getDetalles().get(0).getProducto().getNombre());
-							System.out.println(factura.calcularTotal(factura.getDetalles()));
+							//System.out.println(factura.getDetalles().get(0).getProducto().getNombre());
+							factura.setSubtotal(factura.calcularSubtotal());
+							factura.setTotal(factura.calcularTotal());
 						//Calculardescuento
 						factura.getDetalles().stream().forEach(d -> System.out.println(d.getProducto().getNombre() + " |||| " + d.getCantidad() + " _-_-_ " + d.calcularImporte()));
 						System.out.println(factura.toString());
@@ -150,6 +177,7 @@ public class Principal {
 						LocalDate date = LocalDate.parse(fecha);
 						factura.setFecha(date);
 						factura.setCliente(cli);
+						answer=0;
 							while(answer!=2){
 							Scanner respuesta = new Scanner(System.in);
 							System.out.println("Ingrese el producto comprado por el cliente");
@@ -169,10 +197,9 @@ public class Principal {
 							answer = respuesta.nextInt();
 							if(answer == 2) {terminar=true;}
 							}
-								System.out.println(factura.getDetalles().get(0).getProducto().getNombre());
-							
-							System.out.println(factura.calcularTotal(factura.getDetalles()));
-						//Calculardescuento
+							factura.setSubtotal(factura.calcularSubtotal());
+							factura.setTotal(factura.calcularTotal());
+						//CalculardescuentoS
 						factura.getDetalles().stream().forEach(d -> System.out.println(d.getProducto().getNombre() + " |||| " + d.getCantidad() + " _-_-_ " + d.calcularImporte()));
 						
 					}
@@ -186,10 +213,12 @@ public class Principal {
 				}
 				break;
 			case 6:
+				CollectionProducto.mostrarProductos();
 				System.out.println("Crear stock de producto");
 				System.out.println("Ingresar el codigo del producto");
 				code= scan.nextInt();
-				Producto product = CollectionProducto.buscarProductoPorCodigo(code);
+				Producto product =  new Producto();
+				product = CollectionProducto.buscarProductoPorCodigo(code);
 				existe = CollectionStock.buscarStock(code);
 				if(product != null && existe.isEmpty()) {
 					stock.setProd(product);

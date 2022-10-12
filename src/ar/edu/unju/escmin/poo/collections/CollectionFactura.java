@@ -29,4 +29,10 @@ public class CollectionFactura {
 		}
 		return factura;
 	}
+//	public static Optional<Producto> buscarProducto(int codigo) {
+//	Optional<Producto> encontrado= Optional.empty();
+//	encontrado = productos.stream().filter(p -> p.getCodigo() == codigo).findFirst();
+//	
+//	return encontrado;
+//}
 }

@@ -48,4 +48,13 @@ public class Detalle {
 		double total = producto.getPrecioUnitario() * cantidad;
 		return total;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Detalle [cantidad=" + cantidad + ", producto=" + producto + ", calcularImporte()=" + calcularImporte()
+				+ "]";
+	}
+	
 }

@@ -39,8 +39,13 @@ public abstract class CollectionProducto {
 	public static void agregarProducto(Producto producto) {
 		//if(buscarProductoPorCodigo(producto.getCodigo()).equals(null)) {
 		productos.add(producto);
+		System.out.println("Se agrego el producto" + producto.getNombre());
+		productos.stream().forEach(p -> System.out.println(p.getNombre()));
 		//}else {
 			//System.out.println("El producto ya existe en el sistema");
 		//}
 	}
+public static void mostrarProductos() {
+	productos.stream().forEach(p -> System.out.println(p.getNombre()));
+}
 }
