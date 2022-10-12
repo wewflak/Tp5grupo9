@@ -26,8 +26,11 @@ public class Stock implements Comparable <Stock> {
 	}
 	@Override
 	public int compareTo(Stock o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.prod.getCodigo() == o.prod.getCodigo())
+			return 0;
+		else if(this.prod.getCodigo() > o.prod.getCodigo())
+			return 1;
+		else return -1;
 	}
 	
 	

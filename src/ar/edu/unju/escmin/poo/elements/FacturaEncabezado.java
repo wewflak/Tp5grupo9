@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacturaEncabezado {
+public class FacturaEncabezado implements Comparable<FacturaEncabezado>{
 public FacturaEncabezado() {
 	// TODO Auto-generated constructor stub
 }
@@ -61,8 +61,8 @@ String newLine = System.getProperty("line.separator");
 				"---------------" + newLine+
 				"      "+
 				"	Producto		"+	"Descripcion		" + "	Importe		"+ newLine +
-				"______________" +
-				"detalles: " + mostrarDetalle() + newLine + 
+				"______________" + newLine +
+				 mostrarDetalle().toString() + newLine + 
 				"				"+ 
 				"	"+ "			total=" + total;
 	}
@@ -76,11 +76,12 @@ String newLine = System.getProperty("line.separator");
 		return detalles;
 		
 	}
-	public String mostrarDetalle() {
-		String datos =" ";
+	public String [] mostrarDetalle() {
+		String[] datos = new String [120];
 		for(int i=0; i<detalles.size(); i++) {
 			if(detalles.get(i)!=null) {
-				datos = detalles.get(i).getProducto().getNombre() + detalles.get(i).getProducto().getDescripcion() + detalles.get(i).getCantidad() +detalles.get(i).calcularImporte();
+				datos[i] = detalles.get(i).getProducto().getNombre() + "    " + detalles.get(i).getProducto().getDescripcion() + "    " + detalles.get(i).getCantidad() + "    " +detalles.get(i).calcularImporte();
+				System.out.println(datos[i]);
 			}else {
 				
 			}
@@ -137,5 +138,14 @@ String newLine = System.getProperty("line.separator");
 	}
 	public void setSubtotal(double subtotal) {
 		this.subtotal = subtotal;
+	}
+	@Override
+	public int compareTo(FacturaEncabezado o) {
+		if(this.numeroFactura == o.numeroFactura)
+			return 0;
+		else if(this.numeroFactura > o.numeroFactura)
+			return 1;
+		else
+		return -1;
 	}
 }

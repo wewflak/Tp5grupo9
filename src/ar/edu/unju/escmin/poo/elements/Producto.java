@@ -104,7 +104,21 @@ public class Producto implements Comparable<Producto> {
 
 	@Override
 	public int compareTo(Producto o) {
-		// TODO Auto-generated method stub
+		if(this.codigo == o.getCodigo()) {
 		return 0;
+		}else if(this.codigo > o.getCodigo())
+			return 1;
+		else return -1;
 	}
 }
+//Patient temp = (Patient) o;
+//int r = this.lastName.compareToIgnoreCase(temp.getLastName());
+//if (r == 0)
+//    r = this.firstName.compareToIgnoreCase(temp.getFirstName());
+//if (r == 0)
+//    r = this.SSN.compareToIgnoreCase(temp.getSSN());
+//if (r == 0)
+//    r = this.dob.toString().compareToIgnoreCase(temp.getDOB().toString());
+//if (r == 0)
+//    r = Integer.compare(this.getID(), temp.getID());
+//return r;

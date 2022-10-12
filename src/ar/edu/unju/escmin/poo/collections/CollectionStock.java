@@ -50,6 +50,9 @@ public static Optional<Stock> buscarStock (int codigo){
 	encontrado = registro.stream().filter(s -> s.getProd().getCodigo() == codigo).findFirst();
 	return encontrado;
 }
+public static void mostrarStock() {
+	registro.stream().forEach(s-> System.out.println(s.getProd().getCodigo()));
+}
 //public static Optional<Producto> buscarProducto(int codigo) {
 //Optional<Producto> encontrado= Optional.empty();
 //encontrado = productos.stream().filter(p -> p.getCodigo() == codigo).findFirst();
