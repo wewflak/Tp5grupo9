@@ -44,6 +44,7 @@ public class Principal {
 		AgenteAdministrativo administrativo = (AgenteAdministrativo)CollectionEmpleado.empleados.stream().filter(e -> e.getCargo().equals("Administrativo")).findFirst().get();
 	    EncargadoVentas encargadoVentas=(EncargadoVentas)CollectionEmpleado.empleados.stream().filter(e->e.getCargo().equals("Encargado")).findFirst().get();
 		do {
+			System.out.println(newLine);
 			System.out.println("+*+*+*+*+*+*+*  Menu  +*+*+*+*+*+*+*");
 			System.out.println("1. Crear un producto");
 			System.out.println("2. Cargar Stock de producto");
@@ -54,6 +55,8 @@ public class Principal {
 			System.out.println("6. Mostrar todas las ventas");
 			System.out.println("*********  Cliente  *********");
 			System.out.println("7. Buscar Factura por codigo");
+			System.out.println("8. Salir");
+			System.out.println(newLine);
 			op=scan.nextInt();
 			switch(op) {
 		case 1:
@@ -96,9 +99,14 @@ public class Principal {
 				}
 				break;
 				
-			}
 			
-		}while(op!=13);
+			case 8:
+				System.out.println("Programa finalizado");
+				System.out.println("Presione cualquier tecla para continuar...");
+		          new Scanner(System.in).nextLine();
+				break;
+			}
+		}while(op!=8);
 		
 	}
 	  boolean isInstanceOf(Empleado empleado, Class<?> clazz){
